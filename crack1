@@ -1,0 +1,31 @@
+import hashlib
+
+# Common passwords and their variations
+common_passwords = ["password", "admin", "letmein","welcome", "123456", "qwerty"]
+password_variations = ["", "123", "!", "@", "#", "1234", "12#@", "2024"]
+
+# Hashed password to be cracked (this is your target hash)
+target_password = "mypass12#@"
+hashed_password = hashlib.sha256(target_password.encode()).hexdigest()
+
+print(f"Target SHA256 Hash: {hashed_password}")
+print("Starting password cracking...")
+
+found = False
+
+for password in common_passwords:
+    for variation in password_variations:
+        guess = password + variation
+        hashed_guess = hashlib.sha256(guess.encode()).hexdigest()
+
+        print(f"Trying: {guess}")
+
+        if hashed_guess == hashed_password:
+            print(f"\n✅ Password found: {guess}")
+            found = True
+            break
+    if found:
+        break
+
+if not found:
+    print("\n❌ Password not found in dictionary.")
